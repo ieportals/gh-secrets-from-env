@@ -1,52 +1,52 @@
-# upload-github-secrets
+# gh-secrets-from-env
 
 Upload key/value pairs from an env file into GitHub Actions repository secrets using the GitHub CLI.
 
 ## File in this repo
 
-- `upload-github-secrets.sh`: Reads an env file line by line and runs `gh secret set` for each valid `KEY=VALUE` entry.
+- `src/cli.ts`: Commander-based TypeScript CLI that reads an env file and runs `gh secret set` for each valid `KEY=VALUE` entry.
 
 ## Prerequisites
 
-1. [GitHub CLI](https://cli.github.com/) installed (`gh` command available)
-2. Logged in with GitHub CLI:
+1. [Node.js](https://nodejs.org/) installed
+2. [GitHub CLI](https://cli.github.com/) installed (`gh` command available)
+3. Logged in with GitHub CLI:
    ```bash
    gh auth login
    ```
-3. Permission to manage secrets in the target repository
+4. Permission to manage secrets in the target repository
 
-## Usage
+## Run Without Installing
 
 ```bash
-./upload-github-secrets.sh [ENV_FILE] [REPO]
+npx @ieportals/gh-secrets-from-env ENV_FILE REPO
 ```
 
-- `ENV_FILE` is optional.
-- Default is `.env.test`.
-- `REPO` is optional.
-- No default hardcoded repo.
+- Runs from npm without local install.
+- For pnpm users after publish:
+  ```bash
+  pnpm dlx @ieportals/gh-secrets-from-env ENV_FILE REPO
+  ```
+- `ENV_FILE` is required.
+- `REPO` is required.
+
+## Local Development
+
+```bash
+npm install
+npm run build
+node dist/cli.js ENV_FILE REPO
+```
 
 ## Target repository
 
-You can override the target repo in either of these ways:
-
-1. CLI argument (highest priority):
-
 ```bash
-./upload-github-secrets.sh .env.production owner/repo
+npx @ieportals/gh-secrets-from-env .env.production owner/repo
 ```
-
-2. Environment variable:
-
-```bash
-GITHUB_REPO=owner/repo ./upload-github-secrets.sh .env.production
-```
-
-If no repo is provided, the script calls `gh secret set` without `-R` and uses GitHub CLI's default repository context.
 
 ## Accepted env file format
 
-The script supports lines like:
+The CLI supports lines like:
 
 ```env
 # comments are ignored
@@ -67,11 +67,7 @@ Parsing behavior:
 ## Example
 
 ```bash
-./upload-github-secrets.sh .env.test
-```
-
-```bash
-./upload-github-secrets.sh .env.test owner/repo
+npx @ieportals/gh-secrets-from-env .env.test owner/repo
 ```
 
 Output will include each key as it is uploaded and a final count.

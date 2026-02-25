@@ -1,0 +1,29 @@
+{
+  "name": "@ieportals/gh-secrets-from-env",
+  "version": "1.0.0",
+  "description": "Upload key/value pairs from an env file to GitHub repository secrets via gh CLI",
+  "main": "dist/cli.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "bin": {
+    "gh-secrets-from-env": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepack": "npm run build",
+    "start": "node dist/cli.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  }
+}
