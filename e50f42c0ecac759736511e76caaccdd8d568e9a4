@@ -1,0 +1,31 @@
+tsconfig.json
+  d7934777f6337157 1-14
+package.json
+  d7934777f6337157 1-29
+package-lock.json
+  d7934777f6337157 1-63
+.gitignore
+  d7934777f6337157 1-2
+README.md
+  d7934777f6337157 1,7,11-13,17,19,22,25-31,33,36-38,44,49,70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.5",
+  "base_commit_sha": "e50f42c0ecac759736511e76caaccdd8d568e9a4",
+  "prompts": {
+    "d7934777f6337157": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019c8dd9-0cc2-7be2-a2a2-cbdee91c9064",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "matéo! <6matbub@gmail.com>",
+      "messages": [],
+      "total_additions": 165,
+      "total_deletions": 132,
+      "accepted_lines": 136,
+      "overriden_lines": 0
+    }
+  }
+}
