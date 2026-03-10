@@ -5,7 +5,8 @@
   "main": "dist/cli.js",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "bin": {
     "gh-secrets-from-env": "dist/cli.js"

@@ -2,6 +2,8 @@
 
 Upload key/value pairs from an env file into GitHub Actions repository secrets using the GitHub CLI.
 
+See [CHANGELOG.md](./CHANGELOG.md) for release notes.
+
 ## File in this repo
 
 - `src/cli.ts`: Commander-based TypeScript CLI that reads an env file and runs `gh secret set` for each valid `KEY=VALUE` entry.
