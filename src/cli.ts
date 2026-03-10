@@ -3,6 +3,7 @@
 import { readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { Command } from 'commander';
+import { parse } from 'dotenv';
 
 function runGhCommand(args: string[]): void {
   const result = spawnSync('gh', args, { stdio: 'inherit' });
@@ -17,46 +18,6 @@ function runGhCommand(args: string[]): void {
 function isGhInstalled(): boolean {
   const result = spawnSync('gh', ['--version'], { stdio: 'ignore' });
   return !result.error && result.status === 0;
-}
-
-function trimWhitespace(value: string): string {
-  return value.replace(/^\s+/, '').replace(/\s+$/, '');
-}
-
-function parseEnvLine(rawLine: string): { key: string; value: string } | null {
-  let line = rawLine.endsWith('\r') ? rawLine.slice(0, -1) : rawLine;
-
-  if (line.trim().length === 0) {
-    return null;
-  }
-
-  if (/^\s*#/.test(line)) {
-    return null;
-  }
-
-  if (line.startsWith('export ')) {
-    line = line.slice('export '.length);
-  }
-
-  if (!line.includes('=')) {
-    return null;
-  }
-
-  const eqIndex = line.indexOf('=');
-  let key = trimWhitespace(line.slice(0, eqIndex));
-  let value = trimWhitespace(line.slice(eqIndex + 1));
-
-  if (!key) {
-    return null;
-  }
-
-  if (value.length >= 2 && value.startsWith('"') && value.endsWith('"')) {
-    value = value.slice(1, -1);
-  } else if (value.length >= 2 && value.startsWith("'") && value.endsWith("'")) {
-    value = value.slice(1, -1);
-  }
-
-  return { key, value };
 }
 
 function main(): void {
@@ -86,18 +47,14 @@ function main(): void {
       console.log(`Uploading secrets from ${resolvedEnvFile} to ${repo}...`);
 
       let count = 0;
-      for (const rawLine of fileContents.split('\n')) {
-        const parsed = parseEnvLine(rawLine);
-        if (!parsed) {
-          continue;
-        }
-
-        const args = ['secret', 'set', parsed.key, '--body', parsed.value];
+      const parsedEnv = parse(fileContents);
+      for (const [key, value] of Object.entries(parsedEnv)) {
+        const args = ['secret', 'set', key, '--body', value];
         args.push('-R', repo);
 
         runGhCommand(args);
         count += 1;
-        console.log(`Set ${parsed.key}`);
+        console.log(`Set ${key}`);
       }
 
       console.log(`Done. Uploaded ${count} secret(s) to ${repo}.`);

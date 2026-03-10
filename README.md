@@ -46,23 +46,12 @@ npx @ieportals/gh-secrets-from-env .env.production owner/repo
 
 ## Accepted env file format
 
-The CLI supports lines like:
-
 ```env
 # comments are ignored
 API_KEY=abc123
 DATABASE_URL="postgres://user:pass@host/db"
 export REDIS_URL=redis://localhost:6379
 ```
-
-Parsing behavior:
-
-- Empty lines are ignored
-- Lines starting with `#` are ignored
-- Lines without `=` are ignored
-- Leading `export ` is removed
-- Surrounding whitespace is trimmed
-- Single or double quotes around values are removed
 
 ## Example
 
